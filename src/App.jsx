@@ -6,6 +6,12 @@ function App() {
  const [data,setData] = useState([])
  const [refetch,setRefetch] = useState(false)
  const [show,setShow] = useState(true)
+ const [item, setItem] = useState({
+   id: "",
+   title: "",
+   type: "",
+   description: "",
+ });
  const todoItems = data.length > 0 ? data.filter((item) => item.type === 'todo') : []
  const inProgressItems = data.length > 0 ? data.filter((item) => item.type === 'inprogress') : []
  const completedItems = data.length > 0 ? data.filter((item) => item.type === 'complete') : []
@@ -38,8 +44,25 @@ function App() {
     updateStatus()
     // setDroppedItems((prev) => [...prev, item]);
   };
-  const AddBtn = <button className='cursor-pointer'><i className='fa fa-plus text-green-700'></i></button>
+
+  const handleSave = () => {
+    const addTask = async () => {
+      const url = `http://localhost:5050/data/add`
+      const res = await fetch(url,
+        {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify(item)
+        })
+      setRefetch(!refetch)
+    }
+    addTask()
+    setShow(false)
+  }
+
+  const AddBtn = <button className='cursor-pointer' onClick={()=>setShow(true)}><i className='fa fa-plus text-green-700'></i></button>
   const itesms = ['Red', 'Green', 'Blue'];
+
   return (
     <>
       <Header />
@@ -80,11 +103,33 @@ function App() {
             initialItems={completedItems}  
           />
         </div>
-        <Modal show={show} setShow={setShow}>
-          <div>
-            <input type="text" placeholder='Enter task name' />
-            <input type="text" placeholder='Enter task description' />
-            <input type="text" placeholder='Enter task type' />
+        <Modal show={show} setShow={setShow} title="Add Task" size='sm' action={handleSave}>
+          <div className='flex gap-2 flex-col'>
+            <input 
+              type="text" 
+              placeholder='Enter task name' 
+              className='form-field' 
+              value={item.title} 
+              onChange={(e)=>setItem({...item,title:e.target.value})}
+            />
+            <textarea 
+              placeholder='Enter task description' 
+              className='form-field'
+              value={item.description} 
+              onChange={(e)=>setItem({...item,description:e.target.value})}
+            ></textarea>
+            <select 
+              type="text" 
+              placeholder='Enter task type' 
+              className='form-field'
+              value={item.type} 
+              onChange={(e)=>setItem({...item,type:e.target.value})}
+            >
+              <option value={""}>Select a task type</option>
+              <option value="todo">To Do</option>
+              <option value="inprogress">In Progress</option>
+              <option value="complete">Completed</option>
+            </select>
           </div>
         </Modal>
       </div>

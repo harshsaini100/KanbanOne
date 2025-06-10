@@ -1,27 +1,92 @@
-import { useRef, useEffect } from "react"
-export default function Modal({children, show, setShow}: {children: any, show: boolean, setShow: any}) {
-    const ref = useRef<any>(null);
-    
-    useEffect(() => {
-        if(ref.current){
-            ref.current.addEventListener('click', (e) => {
-                if(e.target.id === "modal-backdrop"){
-                    setShow(false)
-                }
-            })
-        }
-    },[])
+import { useEffect, useRef, useState } from "react";
 
-    return (
-        <div 
-            className="modal bg-black opacity-50 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" 
-            style={{display: show ? "block" : "none"}}
-            ref={ref}
-            id="modal-backdrop"
-        >
-            <div id="modal_card" className="opacity-100  bg-white rounded-lg">
-                {children}
-            </div>
+export default function Modal(
+    { 
+        show, 
+        setShow, 
+        children, 
+        title, 
+        action, 
+        size 
+    }:
+    {
+        show: boolean,
+        setShow: any,
+        children: any,
+        title?: string,
+        action?: any,
+        size?: "sm" | "md" | "lg"
+    }) 
+    {
+  const ref = useRef<any>(null);
+  const [isVisible, setIsVisible] = useState(show);
+
+  // Manage visibility for animation
+  useEffect(() => {
+    if (show) setIsVisible(true);
+  }, [show]);
+
+  // Close modal on outside click or Escape key
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (ref.current && !ref.current.contains(event.target)) {
+        handleClose();
+      }
+    }
+
+    function handleEscape(event) {
+      if (event.key === "Escape") {
+        handleClose();
+      }
+    }
+
+    if (isVisible) {
+      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("keydown", handleEscape);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [isVisible]);
+
+  function handleClose() {
+    setIsVisible(false);
+    setTimeout(() => setShow(false), 300); // Matches transition duration
+  }
+
+  if (!show && !isVisible) return null;
+
+  const modalTypeClass = `modal-${size || "sm"}`;
+
+  return (
+    <div
+      className={`${modalTypeClass} fixed inset-0 z-50 flex items-center justify-center bg-black/50 transition-opacity duration-300 ${
+        isVisible ? "opacity-100" : "opacity-0"
+      }`}
+    >
+      <div
+        ref={ref}
+        className={`modal-card bg-white rounded-xl w-full shadow-lg transform transition-all duration-300 ${
+          isVisible ? "scale-100 opacity-100" : "scale-95 opacity-0"
+        }`}
+      >
+        <div className="modal-header w-full border-b-1 border-gray-200 flex items-center px-6">
+           <strong>{title && title}</strong>
         </div>
-    )
+        <div className="p-6 modal-body">
+            {children}
+        </div>
+        <div className="modal-footer w-full border-t-1 border-gray-200 flex justify-end items-center px-6 gap-2">
+            <button className="btn btn-danger" onClick={handleClose}>
+                Cancel
+            </button>
+            {action &&<button className="btn btn-primary" onClick={action}>
+                Save
+            </button>}
+        </div>
+      </div>
+    </div>
+  );
 }
