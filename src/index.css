@@ -43,6 +43,10 @@ body{
   height: 60%;
 }
 
+.task-card{
+  height: 150px;
+}
+
 /* Add custom styles and apply Tailwind utilities here */
 @layer utilities {
  .form-field{
