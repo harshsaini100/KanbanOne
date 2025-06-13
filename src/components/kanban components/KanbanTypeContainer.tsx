@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import KanbanHeader from "./KanbanCardHeader"
 import KanbanTaskCard from './KanbanTask';
-
+import { useSelector, useDispatch } from 'react-redux'
+// import { decrement, increment } from '../../store/tasks/tasksSlice'
 export default function KanbanTypeContainer(
     {
         type,
@@ -24,6 +25,7 @@ export default function KanbanTypeContainer(
         initialItems?: any 
     }) {
 
+        const dispatch = useDispatch()
 
         const bgColor = type === "todo" ? "bg-rose-500" : type === "inprogress" ? "bg-yellow-500" : "bg-green-500";
 
@@ -43,7 +45,7 @@ export default function KanbanTypeContainer(
             onDragOver={(e) => e.preventDefault()}
             onDrop={handleDrop}
         >
-            <KanbanHeader title={title} icon={icon} color={color} action={action} />
+          <KanbanHeader title={title} icon={icon} color={color} action={action} />
             <div className='flex gap-2 flex-col'>
             {initialItems && initialItems.map((item: any) => (
                 <div draggable onDragStart={(e) => handleDragStart(e, `${item._id}`)}>

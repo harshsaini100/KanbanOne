@@ -1,9 +1,10 @@
+import { useSelector, useDispatch } from 'react-redux'
+import { deleteTask } from '../../store/tasks/tasksSlice';
 export default function KanbanTaskCard({id, type, title, description}: {id:any; type: "todo" | "inprogress" | "complete", title: string, description: string}) {
     const shadow = type === "todo" ? "shadow-rose-500" : type === "inprogress" ? "shadow-yellow-500" : "shadow-green-500";
-    
+    const dispatch = useDispatch()
     const handleDelete = () => {
-        const url = `http://localhost:5050/data/delete/${id}`
-        fetch(url, {method:'DELETE'})
+        // dispatch(deleteTask(id))       
     }
 
     return (

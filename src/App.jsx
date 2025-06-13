@@ -2,8 +2,11 @@ import { useState, useEffect } from 'react'
 import Header from './components/Header'
 import KanbanTypeContainer from './components/kanban components/KanbanTypeContainer'
 import Modal from './components/generalComponents/Modal'
+import { useSelector, useDispatch } from 'react-redux'
+import { getAllTasks } from './store/tasks/tasksSlice'
 function App() {
- const [data,setData] = useState([])
+ const data = useSelector((state) => state.tasks.items)
+//  const [data,setData] = useState([])
  const [refetch,setRefetch] = useState(false)
  const [show,setShow] = useState(true)
  const [item, setItem] = useState({
@@ -15,14 +18,11 @@ function App() {
  const todoItems = data.length > 0 ? data.filter((item) => item.type === 'todo') : []
  const inProgressItems = data.length > 0 ? data.filter((item) => item.type === 'inprogress') : []
  const completedItems = data.length > 0 ? data.filter((item) => item.type === 'complete') : []
+const count = useSelector((state) => state.tasks.value)
+const dispatch = useDispatch()
 
  useEffect(()=>{
-      const fetchData = async () => {
-        const url = `http://localhost:5050/data/all_items`
-        const res = await fetch(url)
-        setData(await res.json())
-      }
-      fetchData()
+      dispatch(getAllTasks())
   },[refetch])
 
   const [droppedItems, setDroppedItems] = useState([]);
@@ -68,7 +68,7 @@ function App() {
       <Header />
       <div className='main px-40 h-full'>
         <div className='flex gap-2 justify-center h-full'>
-          
+          Count : {count}
           {/* To do card */}
           <KanbanTypeContainer        
             type="todo"   
