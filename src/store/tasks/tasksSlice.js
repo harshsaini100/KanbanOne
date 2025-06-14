@@ -1,10 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { useDispatch } from 'react-redux'
 import axios from 'axios'
 
 export const getAllTasks = createAsyncThunk(
     'tasks/getAllTasks',
     async () => {
-        const response = await axios.get('http://localhost:5050/data/all_items', {
+        const response = await axios.get('http://localhost:5050/tasks/all_items', {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
@@ -14,17 +15,54 @@ export const getAllTasks = createAsyncThunk(
     }
 )
 
+
+export const addTask = createAsyncThunk(
+    'tasks/addTask',
+    async (item, {dispatch}) => {
+        const response = await axios.post('http://localhost:5050/tasks/add', item,{
+            headers : {
+                'Content-Type' : 'application/json',
+                'Accept':'application/json'
+            },            
+        })
+        if(response.status == 200){
+            dispatch(getAllTasks())
+        }
+        return response.data
+
+    }
+)
+
+export const updateStatus = createAsyncThunk(
+    'tasks/updateStatus',
+    async (item, {dispatch}) => {
+        const response = await axios.patch('http://localhost:5050/tasks/updateStatus/'+item.id, item.payload,
+            {
+            headers : {
+                'Content-Type' : 'application/json',
+                'Accept':'application/json'
+            },            
+        })
+        if(response.status == 200){
+            dispatch(getAllTasks())
+        }
+        return response.data
+
+    }
+)
+
+
 export const deleteTask = createAsyncThunk(
   'tasks/deleteTask',
-  async (id) => {
-    const response = await axios.delete(`http://localhost:5050/data/delete/${id}`, {
+  async (id, {dispatch}) => {
+    const response = await axios.delete(`http://localhost:5050/tasks/delete/${id}`, {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       }
     })
     if(response.status === 200) {
-      getAllTasks()
+      dispatch(getAllTasks())
     }
     return response.data
   }
