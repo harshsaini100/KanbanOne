@@ -2,7 +2,7 @@ import logo from "../assets/logo.png"
 import { Link } from "react-router-dom"
 export default function Header() {
     return (
-        <header className="w-full p-0 m-0">
+        <header className="w-full p-0 m-0 absolute">
             <nav className="flex justify-between py-2 px-4">
                 <div className="logo">
                     <img src={logo} alt="logo" />
