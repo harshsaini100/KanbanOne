@@ -1,5 +1,24 @@
-import logo from "../assets/logo.png";
+// import logo from "../assets/logo.png";
+import { login } from "../store/auth/authSlice";
+import useAppDispatch from "../store/useAppDispatch";
+import { useSelector } from "react-redux";
 export default function Login() {
+    const { token, user, loading, error } = useSelector((state: any) => state.auth)
+
+    const dispatch = useAppDispatch();
+    const handleLogin = (e: any) => {
+        e.preventDefault()
+
+        const formData = new FormData(e.target);
+        const data = {
+            email: formData.get('email'),
+            password: formData.get('password')
+        };
+
+        console.log(data);
+        dispatch(login(data))
+
+    }
     return (
         <>
             <section className="">
@@ -10,7 +29,7 @@ export default function Login() {
                     >
                         <img
                             className=""
-                            src={logo}
+                            src={'/logo.png'}
                             alt="logo"
                         />
                         <p className="text-black">KANBAN ONE</p>
@@ -20,7 +39,7 @@ export default function Login() {
                             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-black">
                                 Sign in to your account
                             </h1>
-                            <form className="space-y-4 md:space-y-6" action="#">
+                            <form className="space-y-4 md:space-y-6" onSubmit={handleLogin}>
                                 <div>
                                     <label
                                         htmlFor="email"
