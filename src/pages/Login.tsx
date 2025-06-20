@@ -1,24 +1,49 @@
 // import logo from "../assets/logo.png";
+import { useEffect } from "react";
 import { login } from "../store/auth/authSlice";
 import useAppDispatch from "../store/useAppDispatch";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 export default function Login() {
+    
     const { token, user, loading, error } = useSelector((state: any) => state.auth)
+    const navigate = useNavigate();
+
+    const errorMsg = error?.error;
+
+    console.log(token)
+    // check for token
+    if (token) {
+        navigate("/");
+    }
+
+    
 
     const dispatch = useAppDispatch();
-    const handleLogin = (e: any) => {
+    const handleLogin = async (e: any) => {
+        
         e.preventDefault()
 
         const formData = new FormData(e.target);
-        const data = {
+        
+        const data : any = {
             email: formData.get('email'),
             password: formData.get('password')
         };
 
-        console.log(data);
-        dispatch(login(data))
+        dispatch(login(data)).then((res: any) => {
+            if(res.meta.requestStatus == "fulfilled"){
+
+            }else{
+
+            }
+        }).catch((er:any) => {
+            const error = er?.payload?.error ?? "Something went wrong";
+        })
+        
 
     }
+
     return (
         <>
             <section className="">
@@ -69,6 +94,7 @@ export default function Login() {
                                         placeholder="••••••••"
                                         className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     />
+                                    <span className="text-red-600">{errorMsg ?? ""}</span>
                                 </div>
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-start">
