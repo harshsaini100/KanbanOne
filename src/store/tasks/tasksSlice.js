@@ -1,16 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { useDispatch } from 'react-redux'
 import axios from 'axios'
+import api from '../../utilities/axiosConfiguration'
 
 export const getAllTasks = createAsyncThunk(
     'tasks/getAllTasks',
     async () => {
-        const response = await axios.get('http://localhost:5050/tasks/all_items', {
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        })
+        const response = await api.get('/tasks/all_items')
         return response.data
     }
 )
@@ -19,12 +15,7 @@ export const getAllTasks = createAsyncThunk(
 export const addTask = createAsyncThunk(
     'tasks/addTask',
     async (item, {dispatch}) => {
-        const response = await axios.post('http://localhost:5050/tasks/add', item,{
-            headers : {
-                'Content-Type' : 'application/json',
-                'Accept':'application/json'
-            },            
-        })
+        const response = await api.post('/tasks/add', item)
         if(response.status == 200){
             dispatch(getAllTasks())
         }
@@ -36,13 +27,7 @@ export const addTask = createAsyncThunk(
 export const updateStatus = createAsyncThunk(
     'tasks/updateStatus',
     async (item, {dispatch}) => {
-        const response = await axios.patch('http://localhost:5050/tasks/updateStatus/'+item.id, item.payload,
-            {
-            headers : {
-                'Content-Type' : 'application/json',
-                'Accept':'application/json'
-            },            
-        })
+        const response = await api.patch('/tasks/updateStatus/'+item.id, item.payload)
         if(response.status == 200){
             dispatch(getAllTasks())
         }
@@ -55,12 +40,7 @@ export const updateStatus = createAsyncThunk(
 export const deleteTask = createAsyncThunk(
   'tasks/deleteTask',
   async (id, {dispatch}) => {
-    const response = await axios.delete(`http://localhost:5050/tasks/delete/${id}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      }
-    })
+    const response = await api.delete(`/tasks/delete/${id}`)
     if(response.status === 200) {
       dispatch(getAllTasks())
     }
