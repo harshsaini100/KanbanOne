@@ -4,7 +4,7 @@ const token = localStorage.getItem("token");
 const user = JSON.parse(localStorage.getItem("user"));
 export const login = createAsyncThunk("auth/login", async (credentials, {rejectWithValue}) => {
   try {
-    const res = await fetch('http://localhost:5050/auth/login', {
+    const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(credentials)
