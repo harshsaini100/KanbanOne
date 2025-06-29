@@ -66,14 +66,26 @@ const tasksSlice = createSlice({
       .addCase(getAllTasks.pending, (state) => {
         state.loading = true;
         state.error = null;
-      })
+      })     
       .addCase(getAllTasks.fulfilled, (state, action) => {
         state.loading = false;
         state.items = action.payload;
       })
       .addCase(getAllTasks.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action?.error?.message;
+      })
+       .addCase(updateStatus.pending, (state) => {
+         state.loading = true;
+          state.error = null;
+      })
+       .addCase(updateStatus.fulfilled, (state) => {
+        state.loading = false;
+        state.error = null;
+      })
+       .addCase(updateStatus.rejected, (state) => {
+        state.loading = false;
+        state.error = action?.error?.message;
       })
       .addCase(deleteTask.pending, (state, action) => {
         state.loading = true;

@@ -6,9 +6,11 @@ import { getAllTasks, updateStatus } from '../store/tasks/tasksSlice'
 import useAppDispatch from '../store/useAppDispatch'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { addTask } from '../store/tasks/tasksSlice'
+import Spinner from '../components/Spiner'
 function KanbanPage() {
 
  const data = useSelector((state:any) => state.tasks.items)
+ const {loading} = useSelector((state:any) => state.tasks)
  const {user} = useSelector((state:any) => state.auth)
  const [refetch,setRefetch] = useState(false)
  const [show,setShow] = useState(false)
@@ -63,7 +65,7 @@ const dispatch = useAppDispatch()
 
   return (
     <>
-     
+     {loading && <Spinner />}
       <div className='main px-40 h-full'>
         <div className='flex gap-2 justify-center h-full'>
           {/* To do card */}

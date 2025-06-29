@@ -57,6 +57,36 @@ body{
   width: 100px;
 }
 
+.task_arrow{
+  height: 30px;
+  width:30px;
+  background: #6480bcb6;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 45%;
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.opacity_one{
+  opacity: 1;
+}
+
+.task_arrow_right{
+  right: -11px;
+}
+
+.task_arrow_left{
+  left: -11px;
+}
+
+.spinner{
+  background-color: rgba(7, 7, 7, 0.133);
+}
+
 /* Add custom styles and apply Tailwind utilities here */
 @layer utilities {
  .form-field{
