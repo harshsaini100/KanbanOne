@@ -7,6 +7,8 @@ import useAppDispatch from '../store/useAppDispatch'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { addTask } from '../store/tasks/tasksSlice'
 import Spinner from '../components/Spiner'
+import { toast } from 'react-toastify'
+import { toastParameters } from '../utilities/constants'
 function KanbanPage() {
 
  const data = useSelector((state:any) => state.tasks.items)
@@ -49,6 +51,15 @@ const dispatch = useAppDispatch()
 
   const handleSave = () => {
     
+    if(!item.title){
+      toast.error("Please provide a title",toastParameters)
+      return
+    }
+    if(!item.type){
+      toast.error("Please provide a type",toastParameters)
+      return
+    }
+
     dispatch(addTask(item)).then((res)=>{
       if(res.meta.requestStatus == "fulfilled"){
         setRefetch(!refetch)
@@ -56,8 +67,9 @@ const dispatch = useAppDispatch()
     }).catch((er)=>{
       console.log(er)
     })
-       
+    
     setShow(false)
+
   }
 
   const AddBtn = <button className='cursor-pointer' onClick={()=>setShow(true)}><i className='fa fa-plus text-green-700'></i></button>
@@ -66,8 +78,8 @@ const dispatch = useAppDispatch()
   return (
     <>
      {loading && <Spinner />}
-      <div className='main px-40 h-full'>
-        <div className='flex gap-2 justify-center h-full'>
+      <div className='main md:px-20 sm:px-10 lg:px-40 h-full'>
+        <div className='grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 h-full gap-2 justify-items-center'>
           {/* To do card */}
           <KanbanTypeContainer        
             type="todo"   

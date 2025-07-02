@@ -5,6 +5,7 @@ import useAppDispatch from "../store/useAppDispatch";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Navigate } from "react-router-dom";
+import Spinner from "../components/Spiner";
 export default function Login() {
     
     const { token, user, isAuthenticated, loading, error } = useSelector((state: any) => state.auth)
@@ -46,6 +47,7 @@ export default function Login() {
 
     return (
         <>
+        {loading ? <Spinner /> : ""}
             <section className="">
                 <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                     <a

@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios';
 const token = localStorage.getItem("token");
 const user = JSON.parse(localStorage.getItem("user"));
+
 export const login = createAsyncThunk("auth/login", async (credentials, {rejectWithValue}) => {
   try {
     const res = await fetch(`${import.meta.env.VITE_API_BASE_URI}/auth/login`, {
@@ -18,6 +19,23 @@ export const login = createAsyncThunk("auth/login", async (credentials, {rejectW
     return rejectWithValue(err.toString());
   }
 });
+
+export const register = createAsyncThunk("auth/register", async (credentials, {rejectWithValue}) => {
+  try {
+    const res = await fetch(`${import.meta.env.VITE_API_BASE_URI}/auth/register`, {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json'
+       },
+      body: JSON.stringify(credentials)
+    });
+    const data = await res.json();
+    if (!res.ok) return rejectWithValue(data || "Registration failed");
+    return data;
+  } catch (err) {
+    return rejectWithValue(err.toString());
+  }
+})
 
 
 const authSlice = createSlice({
@@ -59,7 +77,18 @@ const authSlice = createSlice({
         state.isAuthenticated = false;
         localStorage.removeItem("token");
         localStorage.removeItem("user");
-      });
+      })
+      .addCase(register.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(register.fulfilled, (state, action) => {
+        state.loading = false;
+       })
+      .addCase(register.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || "Something went wrong"
+      })
   },
 });
 

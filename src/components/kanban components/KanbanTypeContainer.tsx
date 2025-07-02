@@ -41,7 +41,7 @@ export default function KanbanTypeContainer(
 
     return (
         <div
-            className={`${bgColor} rounded shadow-lg border-1 border-cyan-800 h-1/4 main_kanban_container overflow-y-auto`}
+            className={`${bgColor} rounded shadow-lg border-1 border-cyan-800 h-1/4 main_kanban_container overflow-y-auto min-h-58`}
             onDragOver={(e) => e.preventDefault()}
             onDrop={handleDrop}
         >

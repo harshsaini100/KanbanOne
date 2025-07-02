@@ -3,44 +3,42 @@ import { FormMethod, Link } from "react-router-dom"
 import useAppDispatch from "../store/useAppDispatch"
 import { login } from "../store/auth/authSlice"
 import { useNavigate } from "react-router-dom"
+import { register } from "../store/auth/authSlice"
+import { useSelector } from "react-redux"
+import Spinner from "../components/Spiner"
 export default function Register() {
     const navigate = useNavigate()
-    const [registerDetails, setRegisterDetails] = useState({ name: '', email: '', password: '' })
+    const [registerDetails, setRegisterDetails] = useState<any>({ name: '', email: '', password: '' })
     const dispatch = useAppDispatch()
+    const { token, user, isAuthenticated, loading, error } = useSelector((state: any) => state.auth)
     const handleRegister = async (e: any) => {
 
         e.preventDefault();
 
-        const url = `${import.meta.env.VITE_API_BASE_URI}/auth/register`
-        const res = await fetch(url,
-            {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(registerDetails)
-            })
-        
-        if(res.ok){
-            
-            const loginData : any = {
+        dispatch(register(registerDetails)).then((res: any) => {
+            if (res.meta.requestStatus == "fulfilled") {
+                const loginData : any = {
                 email: registerDetails.email,
                 password: registerDetails.password
             }
-
-            dispatch(login(loginData)).then((res: any) => {
+                 dispatch(login(loginData)).then((res: any) => {
                    if(res.meta.requestStatus == "fulfilled"){
                        navigate("/")
                    } 
             }).catch((er)=>{
 
             })
+            }
+        }).catch((er) => {
             
-        }
+        })
 
-
+        
         // setShowRegister(false)
     }
     return (
         <>
+         {loading && <Spinner/>}
             <section className="">
                 <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                     <a
@@ -110,7 +108,7 @@ export default function Register() {
                                         value={registerDetails.password}
                                         onChange={(e) => setRegisterDetails({ ...registerDetails, password: e.target.value })}
                                     />
-
+                                    {error && <p className="text-red-500">{error?.error ?? "Something went wrong"}</p>}
                                 </div>
 
                                 <button

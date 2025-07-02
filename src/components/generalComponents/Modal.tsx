@@ -28,6 +28,7 @@ export default function Modal(
   // Manage visibility for animation
   useEffect(() => {
     if (show) setIsVisible(true);
+    if(!show) handleClose();
   }, [show]);
 
   // Close modal on outside click or Escape key
@@ -83,10 +84,10 @@ export default function Modal(
             {children}
         </div>
         {showFooter &&  <div className="modal-footer w-full border-t-1 border-gray-200 flex justify-end items-center px-6 gap-2">
-            <button className="btn btn-danger" onClick={handleClose}>
+            <button className="btn" onClick={handleClose}>
                 Cancel
             </button>
-            {action &&<button className="btn btn-primary" onClick={action}>
+            {action &&<button className="" onClick={action}>
                 Save
             </button>}
         </div>}
