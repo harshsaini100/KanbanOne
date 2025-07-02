@@ -11,7 +11,7 @@ export default function Register() {
 
         e.preventDefault();
 
-        const url = `http://localhost:5050/auth/register`
+        const url = `${import.meta.env.VITE_API_BASE_URI}/auth/register`
         const res = await fetch(url,
             {
                 method: 'POST',

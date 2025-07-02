@@ -4,6 +4,7 @@ import KanbanPage from "./pages/KanbanPage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import PrivateRoutes from "./components/PrivateRoutes";
+import Projects from "./pages/Projects";
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
           <Route path="register" element={<Register />} />
             <Route path="/" element={<PrivateRoutes><Layout /></PrivateRoutes>}>
               <Route index element={<KanbanPage />} />
+              <Route path="projects" element={<Projects/>}/>
             </Route>
         </Routes>
       </BrowserRouter>

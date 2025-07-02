@@ -1,26 +1,18 @@
 import { useEffect, useRef, useState } from "react";
 
-export default function Modal(
+export default function BareModal(
     { 
         show, 
         setShow, 
         children, 
-        title, 
-        action, 
         size,
-        showHeader=true,
-        showFooter=true
     }:
     {
         show: boolean,
         setShow: any,
         children: any,
-        title?: string,
-        action?: any,
-        size?: "sm" | "md" | "lg"
-        showHeader?: boolean
-        showFooter?: boolean
-    }) 
+        size?: "sm" | "md" | "lg" | "xl"
+      }) 
     {
   const ref = useRef<any>(null);
   const [isVisible, setIsVisible] = useState(show);
@@ -72,24 +64,15 @@ export default function Modal(
     >
       <div
         ref={ref}
-        className={`modal-card bg-white rounded-xl w-full shadow-lg transform transition-all duration-300 ${
+        className={`h-full modal-card bg-white rounded-xl w-full shadow-lg transform transition-all duration-300 ${
           isVisible ? "scale-100 opacity-100" : "scale-95 opacity-0"
         }`}
       >
-        {showHeader && <div className="modal-header w-full border-b-1 border-gray-200 flex items-center px-6">
-           <strong>{title && title}</strong>
-        </div>}
-        <div className="p-6 modal-body">
+       
+        <div className="p-6 modal-body-bare h-full">
             {children}
         </div>
-        {showFooter &&  <div className="modal-footer w-full border-t-1 border-gray-200 flex justify-end items-center px-6 gap-2">
-            <button className="btn btn-danger" onClick={handleClose}>
-                Cancel
-            </button>
-            {action &&<button className="btn btn-primary" onClick={action}>
-                Save
-            </button>}
-        </div>}
+     
       </div>
     </div>
   );
