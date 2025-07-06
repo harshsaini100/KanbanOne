@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-
+import ButtonS from "./ButtonS";
 export default function Modal(
     { 
         show, 
@@ -84,12 +84,8 @@ export default function Modal(
             {children}
         </div>
         {showFooter &&  <div className="modal-footer w-full border-t-1 border-gray-200 flex justify-end items-center px-6 gap-2">
-            <button className="btn" onClick={handleClose}>
-                Cancel
-            </button>
-            {action &&<button className="" onClick={action}>
-                Save
-            </button>}
+            <ButtonS type="button" className="" onClick={handleClose} color="danger">Cancel</ButtonS>
+            {action && <ButtonS type="button" className="" onClick={action}>Save</ButtonS>}
         </div>}
       </div>
     </div>

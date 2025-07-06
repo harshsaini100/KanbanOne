@@ -6,11 +6,10 @@ export default function ProjectCard() {
     const [show, setShow] = useState(false)
     return (
         <div
-
-            className={`relative task-card w-full border-green border-1 rounded  shadow-sm bg-white cursor-pointer`} onClick={() => setShow(true)}>
-            <div className='flex items-center p-2 task-card-title border-b-2 border-b-black h-10'>
+            className={`hover:scale-3d min-w-2xs project-card task-card w-full rounded max-w-2xs shadow-lg bg-white cursor-pointer`} onClick={() => setShow(true)}>
+            <div className='flex items-center p-2 task-card-title h-10'>
                 <div className="flex justify-between items-center w-full">
-                    <h1 title={"abc"} className='truncate'>{"Title"}</h1>
+                    <h1 title={""} className='truncate text-lg font-bold'>{"Title"}</h1>
                     <span className="text-red-600 cursor-pointer" ><i className="fa fa-trash"></i></span>
                 </div>
             </div>

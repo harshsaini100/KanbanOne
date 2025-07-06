@@ -54,7 +54,7 @@ export default function KanbanTaskCard({ id, type, title, description }: { id: a
         <div
             onMouseOver={handleMouseOver}
             onMouseOut={handleMouseOut}
-            className={`relative task-card w-full border-green border-1 rounded ${shadow} shadow-sm bg-white `} /*onClick={() => setShow(true)}*/>
+            className={`relative task-card w-full rounded ${shadow} shadow-md bg-white `} /*onClick={() => setShow(true)}*/>
             <div className='flex items-center p-2 task-card-title border-b-2 border-b-black h-10'>
                 <div className="flex justify-between items-center w-full">
                     <h1 title={title} className='truncate'>{title}</h1>
