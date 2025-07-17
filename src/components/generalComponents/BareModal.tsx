@@ -20,6 +20,7 @@ export default function BareModal(
   // Manage visibility for animation
   useEffect(() => {
     if (show) setIsVisible(true);
+    if(!show) handleClose();
   }, [show]);
 
   // Close modal on outside click or Escape key

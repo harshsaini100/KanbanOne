@@ -2,16 +2,17 @@ import { useState, useEffect } from 'react'
 import KanbanTypeContainer from '../components/kanban components/KanbanTypeContainer'
 import Modal from '../components/generalComponents/Modal'
 import { useSelector, useDispatch } from 'react-redux'
-import { getAllTasks, updateStatus } from '../store/tasks/tasksSlice'
+import { getAllTasks, updateStatus, getTaksByBoard } from '../store/tasks/tasksSlice'
 import useAppDispatch from '../store/useAppDispatch'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { addTask } from '../store/tasks/tasksSlice'
 import Spinner from '../components/Spiner'
 import { toast } from 'react-toastify'
 import { toastParameters } from '../utilities/constants'
-import { Link } from 'react-router-dom'
-function KanbanPage() {
+import { useParams } from 'react-router-dom'
+function Board() {
 
+const { id } : any = useParams();
  const data = useSelector((state:any) => state.tasks.items)
  const {loading} = useSelector((state:any) => state.tasks)
  const {user} = useSelector((state:any) => state.auth)
@@ -22,6 +23,7 @@ function KanbanPage() {
    title: "",
    type: "",
    description: "",
+   board_id: id
  });
 
  // fitler out items based on type
@@ -32,7 +34,7 @@ function KanbanPage() {
 const dispatch = useAppDispatch()
 
  useEffect(()=>{
-      dispatch(getAllTasks())
+      dispatch(getTaksByBoard(id))
   },[refetch])
 
   const [droppedItems, setDroppedItems] = useState([]);
@@ -46,6 +48,7 @@ const dispatch = useAppDispatch()
       payload:{type:type}
     }
     dispatch(updateStatus(post))
+    setRefetch(!refetch)
   
     // updateStatus()
   };
@@ -75,29 +78,6 @@ const dispatch = useAppDispatch()
 
   const AddBtn = <button className='cursor-pointer' onClick={()=>setShow(true)}><i className='fa fa-plus text-green-700'></i></button>
   
-  return (
-    <>
-    <div className='main md:px-20 sm:px-10 lg:px-40  overflow-hidden'>
-      <div className='img-bg rounded-2xl overflow-hidden'>
-      </div>
-      <div className='welcome'>
-        <p>Welcome</p><br/>
-        <p>to KanBan One</p>        
-      </div>
-      <div className='description'>
-         <p className='text-lg font-semibold'>Welcome to Your Productivity Hub!</p>
-          Organize your work effortlessly with our Kanban board system. 
-          Create projects, add boards, and manage tasks with simple drag-and-drop functionality. 
-          Move tasks from To Do to In Progress to Completed and stay in control every step of the way.
-      </div>
-      <div 
-        className='create-home bg-indigo-800 text-white text-lg font-semibold p-2 rounded-2xl cursor-pointer hover:bg-indigo-600 transition-all duration-300'
-        >
-        <Link to={'/projects'}>Create a New Project</Link>
-        </div>
-    </div>
-    </>
-  )
 
   return (
     <>
@@ -172,4 +152,4 @@ const dispatch = useAppDispatch()
 }
 
 
-export default KanbanPage;
+export default Board;

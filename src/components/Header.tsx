@@ -19,9 +19,14 @@ export default function Header() {
     
     return (
         <header className="w-full p-0 m-0">
-            <nav className="flex justify-between py-2 px-4">
+            <nav className="flex justify-between py-2 px-4 rounded-2xl shadow-xl">
                 <div className="logo">
                     <img src={'/logo.png'} alt="logo" />
+                </div>
+                <div className="links flex items-center">
+                        <Link to="/" className="px-2 py-1 font-semibold hover:text-indigo-600 hover:scale-3d">Home</Link>
+                         <Link to="/projects" className="px-2 py-1 font-semibold  hover:text-indigo-600 hover:scale-3d">Projects</Link>
+                         
                 </div>
                 <div className="flex gap-2">
                      {isAuthenticated ? 

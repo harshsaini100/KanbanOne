@@ -1,105 +1,105 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import api from '../../utilities/axiosConfiguration'
 
-export const getAllProjects = createAsyncThunk('projects/getAllProjects', async () => {
+export const getAllBoards = createAsyncThunk('boards/getAllBoards', async (id) => {
     try {
-        const response = await api.get('/projects/all_items')
+        const response = await api.get('/boards/boards_by_project/'+id)
         return response.data;
     } catch (er) {
         return rejectWithValue(err);
     }
 })
 
-export const addProject = createAsyncThunk('projects/addProject', async (item, {dispatch}) => {
+export const addBoard = createAsyncThunk('boards/addBoard', async (item, {dispatch}) => {
     try {
-        const response = await api.post('/projects/add_project', item)
+        const response = await api.post('/boards/create_board', item)
         return response.data;
     } catch (er) {
         return rejectWithValue(err);
     }
 })
 
-export const deleteProject = createAsyncThunk('projects/deleteProject', async (id, {dispatch}) => {
+export const deleteBoard = createAsyncThunk('boards/deleteBoard', async (id, {dispatch}) => {
     try {
-        const response = await api.delete('/projects/delete_project/'+id)
+        const response = await api.delete('/boards/delete_board/'+id)
         return response.data;
     } catch (er) {
         return rejectWithValue(err);
     }
 })
 
-export const getProject = createAsyncThunk('projects/getProject', async (id, {dispatch}) => {
+export const getBoard = createAsyncThunk('boards/getBoard', async (id, {dispatch}) => {
     try {
-        const response = await api.get('/projects/get_project/'+id)
+        const response = await api.get('/boards/get_board/'+id)
         return response.data;
     } catch (er) {
         return rejectWithValue(err);
     }
 })
 
-const projectsSlice = createSlice(
+const boardsSlice = createSlice(
     {
-        name: "projects",
+        name: "boards",
         initialState: {
             items: [],
             loading: false,
-            project: {},
+            board: {},
             error: null,
         },
         extraReducers: (builder) => {
-            builder.addCase(getAllProjects.pending, (state)=>{
+            builder.addCase(getAllBoards.pending, (state)=>{
                 state.loading = true;
                 state.error = null;
             })
-            builder.addCase(getAllProjects.fulfilled, (state, action) => {
+            builder.addCase(getAllBoards.fulfilled, (state, action) => {
                 state.items = action.payload
                 state.loading = false;
                 state.error = null;
             })
-            builder.addCase(getAllProjects.rejected, (state, action) => {
+            builder.addCase(getAllBoards.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action?.error?.message;
             })
-            builder.addCase(addProject.pending, (state)=>{
+            builder.addCase(addBoard.pending, (state)=>{
                 state.loading = true;
                 state.error = null;
             })
-            builder.addCase(addProject.fulfilled, (state, action) => {
+            builder.addCase(addBoard.fulfilled, (state, action) => {
                 state.loading = false;
                 state.items.push(action.payload)
                 state.error = null;
             })
-            builder.addCase(addProject.rejected, (state, action) => {
+            builder.addCase(addBoard.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action?.error?.message;
             })
-            builder.addCase(deleteProject.pending, (state)=>{
+            builder.addCase(deleteBoard.pending, (state)=>{
                 state.loading = true;
                 state.error = null;
             })
-            builder.addCase(deleteProject.fulfilled, (state, action) => {
+            builder.addCase(deleteBoard.fulfilled, (state, action) => {
                 state.loading = false;
                 state.items = state.items.filter((item) => item._id != action.payload.id)
                 state.error = null;
             })
-            builder.addCase(deleteProject.rejected, (state, action) => {
+            builder.addCase(deleteBoard.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action?.error?.message;
             })
-            builder.addCase(getProject.pending, (state)=>{
+            builder.addCase(getBoard.pending, (state)=>{
                 state.loading = true;
                 state.error = null;
             })
-            builder.addCase(getProject.fulfilled, (state, action) => {
+            builder.addCase(getBoard.fulfilled, (state, action) => {
                 state.loading = false;
-                state.project = action.payload
+                state.board = action.payload
                 state.error = null;
             })
-            builder.addCase(getProject.rejected, (state, action) => {
+            builder.addCase(getBoard.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action?.error?.message;
             })
         }
 })
 
-export default projectsSlice.reducer;
+export default boardsSlice.reducer;

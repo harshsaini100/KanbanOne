@@ -11,6 +11,13 @@ export const getAllTasks = createAsyncThunk(
     }
 )
 
+export const getTaksByBoard = createAsyncThunk(
+    'tasks/getTaksByBoard',
+    async (id) => {
+        const response = await api.get('/tasks/by_board/'+id)
+        return response.data
+    }
+)
 
 export const addTask = createAsyncThunk(
     'tasks/addTask',
@@ -28,9 +35,7 @@ export const updateStatus = createAsyncThunk(
     'tasks/updateStatus',
     async (item, {dispatch}) => {
         const response = await api.patch('/tasks/updateStatus/'+item.id, item.payload)
-        if(response.status == 200){
-            dispatch(getAllTasks())
-        }
+        
         return response.data
 
     }
@@ -75,13 +80,31 @@ const tasksSlice = createSlice({
         state.loading = false;
         state.error = action?.error?.message;
       })
+       .addCase(getTaksByBoard.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })     
+      .addCase(getTaksByBoard.fulfilled, (state, action) => {
+        state.loading = false;
+        state.items = action.payload;
+      })
+      .addCase(getTaksByBoard.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
        .addCase(updateStatus.pending, (state) => {
          state.loading = true;
           state.error = null;
       })
-       .addCase(updateStatus.fulfilled, (state) => {
+       .addCase(updateStatus.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
+        // state.items = state.items.map((item) => {
+        //   if (item.id === action.payload.id) {
+        //     return action.payload;
+        //   }
+        //   return item;
+        // })        
       })
        .addCase(updateStatus.rejected, (state) => {
         state.loading = false;
