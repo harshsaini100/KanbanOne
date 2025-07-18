@@ -48,6 +48,7 @@ const projectsSlice = createSlice(
         },
         extraReducers: (builder) => {
             builder.addCase(getAllProjects.pending, (state)=>{
+                state.items = [];
                 state.loading = true;
                 state.error = null;
             })

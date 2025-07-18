@@ -8,15 +8,17 @@ import { addProject, getAllProjects } from "../store/projects/projectsSlice"
 import { useSelector } from "react-redux"
 import { toast } from "react-toastify"
 import { toastParameters } from "../utilities/constants"
+import Spinner from "../components/Spiner"
+import BreadCrumb from "../components/BreadCrumb"
 
 export default function Projects() {
     const dispatch = useAppDispatch();
     const {items, loading, error} = useSelector((state: any) => state.projects)
     useEffect(() => {
-        dispatch(getAllProjects())
+        console.log("mounted")
+        dispatch(getAllProjects()).then((res) => {console.log(res)}).catch(er => {})
     }, [dispatch])
-    console.log("items are")
-    console.log(items)
+   
     const [project, setProject] = useState<any>({name: "", description: ""})
     const [show,setShow] = useState(false)
     const addNewProject = () => {
@@ -33,7 +35,11 @@ export default function Projects() {
         } ).catch(er => {setShow(false); toast.error("Something went wrong",toastParameters)})
     } 
     return (
+        <>
+        {loading && <Spinner />}
+
         <div className="gap-1 flex items-center flex-col lg:px-40 h-full">
+            <BreadCrumb items={[{name: "Projects", link: "/projects"}]}/>
             <h1 className="text-3xl mb-4">Your Projects</h1>
             <div className="w-full mb-4 mt-3 absolute right-10"><ExpandableBtn onClick={() => {setShow(true)}}/></div>
             <div className="grid lg:grid-cols-4 sm:grid-cols-2 gap-4">
@@ -68,5 +74,6 @@ export default function Projects() {
                 </div>
             </BareModal>
         </div>
+        </>
     )
 }

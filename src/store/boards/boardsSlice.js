@@ -48,6 +48,7 @@ const boardsSlice = createSlice(
         },
         extraReducers: (builder) => {
             builder.addCase(getAllBoards.pending, (state)=>{
+                state.items = [];
                 state.loading = true;
                 state.error = null;
             })

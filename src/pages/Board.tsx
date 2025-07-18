@@ -3,6 +3,7 @@ import KanbanTypeContainer from '../components/kanban components/KanbanTypeConta
 import Modal from '../components/generalComponents/Modal'
 import { useSelector, useDispatch } from 'react-redux'
 import { getAllTasks, updateStatus, getTaksByBoard } from '../store/tasks/tasksSlice'
+import { getBoard } from '../store/boards/boardsSlice'
 import useAppDispatch from '../store/useAppDispatch'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { addTask } from '../store/tasks/tasksSlice'
@@ -10,15 +11,17 @@ import Spinner from '../components/Spiner'
 import { toast } from 'react-toastify'
 import { toastParameters } from '../utilities/constants'
 import { useParams } from 'react-router-dom'
+import BreadCrumb from '../components/BreadCrumb'
 function Board() {
 
 const { id } : any = useParams();
  const data = useSelector((state:any) => state.tasks.items)
+     const {items, loading: loadingBoards, board} = useSelector((state:any)=>state.boards)
  const {loading} = useSelector((state:any) => state.tasks)
  const {user} = useSelector((state:any) => state.auth)
  const [refetch,setRefetch] = useState(false)
  const [show,setShow] = useState(false)
- 
+ console.log(board)
  const [item, setItem] = useState<any>({
    title: "",
    type: "",
@@ -35,6 +38,7 @@ const dispatch = useAppDispatch()
 
  useEffect(()=>{
       dispatch(getTaksByBoard(id))
+      dispatch(getBoard(id))
   },[refetch])
 
   const [droppedItems, setDroppedItems] = useState([]);
@@ -83,6 +87,7 @@ const dispatch = useAppDispatch()
     <>
      {loading && <Spinner />}
       <div className='main md:px-20 sm:px-10 lg:px-40 h-full'>
+        <BreadCrumb items={[{name: "Projects", link: "/projects"},{name: "Board"}]}/>
         <div className='grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 h-full gap-2 justify-items-center'>
           {/* To do card */}
           <KanbanTypeContainer        

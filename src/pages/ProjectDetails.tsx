@@ -5,9 +5,11 @@ import { getProject } from '../store/projects/projectsSlice';
 import { useSelector } from 'react-redux';
 import { addBoard, getAllBoards } from '../store/boards/boardsSlice';
 import BoardCard from '../components/BoardCard';
+import Spinner from '../components/Spiner';
+import BreadCrumb from '../components/BreadCrumb';
 export default function ProjectDetails() {
-    const {project} = useSelector((state:any)=>state.projects)
-    const {items} = useSelector((state:any)=>state.boards)
+    const {project, loading} = useSelector((state:any)=>state.projects)
+    const {items, loading: loadingBoards} = useSelector((state:any)=>state.boards)
     console.log(project) 
     const { id } : any = useParams();
      const dispatch = useAppDispatch();
@@ -25,7 +27,10 @@ export default function ProjectDetails() {
      }
 
     return (
+        <>
+        {loading || loadingBoards && <Spinner />}
         <div className='lg:px-40'>
+            <BreadCrumb items={[{name: "Projects", link: "/projects"},{name: project?.name}]}/>
             <h1 className='heading text-2xl'>{project?.name}</h1>
             <p>{project?.description}</p>
             <div className='mt-3'>
@@ -41,5 +46,6 @@ export default function ProjectDetails() {
                 </div>
             </div>
         </div>
+        </>
     );
 }
