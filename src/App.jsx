@@ -8,6 +8,7 @@ import Projects from "./pages/Projects";
 import ProjectDetails from "./pages/ProjectDetails";
 import Board from "./pages/Board";
 import { ToastContainer } from "react-toastify";
+import WakeupProvider from "./contexts/wakeupContext";
 
 function App() {
 
