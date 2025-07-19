@@ -3,7 +3,7 @@
 
 :root {
    font-family: "Quicksand", sans-serif;
-   background-image: url("./bg.jpg");
+   background-image: url("/bg.jpg");
 }
 nav{
   background-color: white;
@@ -109,7 +109,7 @@ h1{
 } */
 
 .img-bg{
-  background-image: url("./waves.jpg");
+  background-image: url("/waves.jpg");
   background-size: cover;
   height: 100%;  
 }

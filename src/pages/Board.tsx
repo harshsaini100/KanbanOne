@@ -87,7 +87,7 @@ const dispatch = useAppDispatch()
     <>
      {loading && <Spinner />}
       <div className='main md:px-20 sm:px-10 lg:px-40 h-full'>
-        <BreadCrumb items={[{name: "Projects", link: "/projects"},{name: "Board"}]}/>
+        <BreadCrumb items={[{name: "Projects", link: "/projects"},{name: board?.project_name, link : `/projects/${board?.project}` }, {name: board?.name}]}/>
         <div className='grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 h-full gap-2 justify-items-center'>
           {/* To do card */}
           <KanbanTypeContainer        

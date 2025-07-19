@@ -7,10 +7,12 @@ import { addBoard, getAllBoards } from '../store/boards/boardsSlice';
 import BoardCard from '../components/BoardCard';
 import Spinner from '../components/Spiner';
 import BreadCrumb from '../components/BreadCrumb';
+import ButtonS from '../components/generalComponents/ButtonS';
 export default function ProjectDetails() {
+    
     const {project, loading} = useSelector((state:any)=>state.projects)
     const {items, loading: loadingBoards} = useSelector((state:any)=>state.boards)
-    console.log(project) 
+    
     const { id } : any = useParams();
      const dispatch = useAppDispatch();
 
@@ -39,7 +41,7 @@ export default function ProjectDetails() {
                 <div className='grid lg:grid-cols-4 sm:grid-cols-2 gap-4 mt-3'>
                     <input className='form-field' value={newBoard.name} onChange={(e) => setNewBoard({...newBoard,name: e.target.value})} placeholder='Board Name'/>
                      <input className='form-field' value={newBoard.description} onChange={(e) => setNewBoard({...newBoard,description: e.target.value})} placeholder='Description'/>
-                    <button className='btn' onClick={()=>{createNewBoard()}}>Create</button>
+                    <ButtonS className='btn' onClick={()=>{createNewBoard()}}>Create</ButtonS>
                 </div>
                 <div className='grid lg:grid-cols-4 sm:grid-cols-2 gap-4 mt-3'>
                     {items && items.map((item:any) => <BoardCard item={item}/>)}
