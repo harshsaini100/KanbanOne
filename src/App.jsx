@@ -9,6 +9,7 @@ import ProjectDetails from "./pages/ProjectDetails";
 import Board from "./pages/Board";
 import { ToastContainer } from "react-toastify";
 import WakeupProvider from "./contexts/wakeupContext";
+import Boards from "./pages/Boards";
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
               <Route path="projects" element={<Projects/>}/>
               <Route path="projects/:id" element={<ProjectDetails/>}/>
               <Route path="board/:id" element={<Board/>}/>
+              <Route path="boards" element={<Boards/>}/>
             </Route>
         </Routes>
       </BrowserRouter>

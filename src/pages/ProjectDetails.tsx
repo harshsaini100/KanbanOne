@@ -8,6 +8,8 @@ import BoardCard from '../components/BoardCard';
 import Spinner from '../components/Spiner';
 import BreadCrumb from '../components/BreadCrumb';
 import ButtonS from '../components/generalComponents/ButtonS';
+import { toast } from 'react-toastify';
+import { toastParameters } from '../utilities/constants';
 export default function ProjectDetails() {
     
     const {project, loading} = useSelector((state:any)=>state.projects)
@@ -24,7 +26,17 @@ export default function ProjectDetails() {
      },[id])
 
      const createNewBoard = () => {
-        dispatch(addBoard({...newBoard,project: id}))
+        if(!newBoard.name) {
+            toast.error("Please provide a name", toastParameters)
+            return
+        }
+        dispatch(addBoard({...newBoard,project: id})).then((res)=>{
+            if(res.meta.requestStatus === "fulfilled"){
+              toast.success("Board added successfully",toastParameters)
+            }else{
+              toast.error("Something went wrong",toastParameters)
+            }
+        }).catch(er => {toast.error("Something went wrong",toastParameters)})
         setNewBoard({name: "", description: ""})
      }
 
@@ -39,8 +51,8 @@ export default function ProjectDetails() {
                 <h2 className='text-xl font-bold'>Boards</h2>
                 <h3>Create New</h3>
                 <div className='grid lg:grid-cols-4 sm:grid-cols-2 gap-4 mt-3'>
-                    <input className='form-field' value={newBoard.name} onChange={(e) => setNewBoard({...newBoard,name: e.target.value})} placeholder='Board Name'/>
-                     <input className='form-field' value={newBoard.description} onChange={(e) => setNewBoard({...newBoard,description: e.target.value})} placeholder='Description'/>
+                    <input className='form-field bg-white' value={newBoard.name} onChange={(e) => setNewBoard({...newBoard,name: e.target.value})} placeholder='Board Name'/>
+                     <input className='form-field bg-white' value={newBoard.description} onChange={(e) => setNewBoard({...newBoard,description: e.target.value})} placeholder='Description'/>
                     <ButtonS className='btn' onClick={()=>{createNewBoard()}}>Create</ButtonS>
                 </div>
                 <div className='grid lg:grid-cols-4 sm:grid-cols-2 gap-4 mt-3'>
