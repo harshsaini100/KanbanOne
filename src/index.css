@@ -2,26 +2,31 @@
 @tailwind utilities;
 
 :root {
-   font-family: "Quicksand", sans-serif;
-   background-image: url("/bg.jpg");
+  font-family: "Quicksand", sans-serif;
+  background-image: url("/bg.jpg");
 }
-nav{
+
+nav {
   background-color: white;
   margin: 10px;
 }
-body{
+
+body {
   height: 100vh;
   width: 100vw;
 }
-h1{
+
+h1 {
   color: #4f39f6;
   font-weight: bold;
 }
-#root{
+
+#root {
   height: 100%;
   width: 100%;
   overflow-x: hidden;
 }
+
 .main_kanban_container {
   width: 350px;
   height: 95%;
@@ -30,51 +35,52 @@ h1{
   background-color: #833ff2;
 }
 
-.modal-sm .modal-card{
+.modal-sm .modal-card {
   width: 500px;
   height: 400px;
 }
 
-.modal-md .modal-card{
+.modal-md .modal-card {
   width: 600px;
   height: 500px;
 }
 
-.modal-lg .modal-card{
+.modal-lg .modal-card {
   width: 800px;
   height: 600px;
 }
 
-.modal-xl .modal-card{
+.modal-xl .modal-card {
   width: 1000px;
   height: 700px;
 }
 
-.modal-header, .modal-footer{
+.modal-header,
+.modal-footer {
   height: 20%;
 }
 
-.modal-body{
+.modal-body {
   /* height: 100%; */
 }
 
-.task-card{
+.task-card {
   height: 150px;
 }
 
-.logo img{
+.logo img {
   width: 140px;
   height: 50px
 }
 
-.button{
+.button {
   height: 40px;
   width: 100px;
 }
 
-.task_arrow{
+.task_arrow {
   height: 30px;
-  width:30px;
+  width: 30px;
   background: #6480bcb6;
   border-radius: 100%;
   display: flex;
@@ -86,19 +92,19 @@ h1{
   transition: all 0.3s ease-in-out;
 }
 
-.opacity_one{
+.opacity_one {
   opacity: 1;
 }
 
-.task_arrow_right{
+.task_arrow_right {
   right: -11px;
 }
 
-.task_arrow_left{
+.task_arrow_left {
   left: -11px;
 }
 
-.spinner{
+.spinner {
   z-index: 1000;
   background-color: rgba(7, 7, 7, 0.133);
 }
@@ -108,30 +114,32 @@ h1{
   height:300px;
 } */
 
-.img-bg{
+.img-bg {
   background-image: url("/waves.jpg");
   background-size: cover;
-  height: 100%;  
+  height: 100%;
 }
 
-.main{
+.main {
   height: 87%;
 }
 
-.welcome{
+.welcome {
   position: absolute !important;
   top: 200px;
   left: 200px;
 }
 
-.welcome p:first-child{
+.welcome p:first-child {
   font-size: 78px;
   font-weight: bolder;
 }
-.welcome p:last-child{
+
+.welcome p:last-child {
   font-size: 78px;
 }
-.description{
+
+.description {
   position: absolute !important;
   top: 500px;
   right: 200px;
@@ -139,7 +147,7 @@ h1{
   font-size: large;
 }
 
-.create-home{
+.create-home {
   position: absolute;
   bottom: 100px;
   left: 200px;
@@ -150,67 +158,78 @@ h1{
 /* mobile screens */
 
 @media only screen and (max-width: 420px) {
-  *{
+  * {
     font-size: 14px;
   }
-  .welcome{
-    top:11%;
-  }
-   .welcome p:first-child {
-  font-size: 48px !important;
 
-}
-.welcome p:last-child {
-  font-size: 48px !important;
-}
-  .description{
-    top: 45%;  
+  .welcome {
+    top: 11%;
+  }
+
+  .welcome p:first-child {
+    font-size: 48px !important;
+
+  }
+
+  .welcome p:last-child {
+    font-size: 48px !important;
+  }
+
+  .description {
+    top: 45%;
     width: 300px !important;
   }
-    .create-home{
-      bottom: 200px;
-    }
-  
+
+  .create-home {
+    bottom: 200px;
+  }
+
 }
 
 @media only screen and (max-width: 902px) {
- .welcome{
-  left: 20%;
- }
+  .welcome {
+    left: 20%;
+  }
+
   .welcome p:first-child {
-  font-size: 58px;
-  font-weight: bolder;
-}
-.welcome p:last-child {
-  font-size: 58px;
-}
-.description{
-  left: 20%;
-  width: 360px;
-  font-size: 16px;
-}
-.create-home{
-  left: 20%;
-}
+    font-size: 58px;
+    font-weight: bolder;
+  }
+
+  .welcome p:last-child {
+    font-size: 58px;
+  }
+
+  .description {
+    left: 20%;
+    width: 360px;
+    font-size: 16px;
+  }
+
+  .create-home {
+    left: 20%;
+  }
 }
 
 
 
 /* Add custom styles and apply Tailwind utilities here */
 @layer utilities {
- .form-field{
-  @apply w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
- }
- .btn {
-    @apply cursor-pointer rounded-lg font-medium transition-colors duration-200 inline-flex items-center justify-center p-0; /* ← added h-10 */
+  .form-field {
+    @apply w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+  }
+
+  .btn {
+    @apply cursor-pointer rounded-lg font-medium transition-colors duration-200 inline-flex items-center justify-center p-0;
+    /* ← added h-10 */
   }
 
   .btn-primary {
-    @apply  bg-blue-600 text-white hover:bg-blue-700;
+    @apply bg-blue-600 text-white hover:bg-blue-700;
   }
 
   .btn-secondary {
-    @apply  bg-gray-200 text-gray-800 hover:bg-gray-300;
+    @apply bg-gray-200 text-gray-800 hover:bg-gray-300;
   }
 
   .btn-danger {
@@ -220,7 +239,8 @@ h1{
   .btn-outline {
     @apply border border-gray-400 text-gray-700 hover:bg-gray-100;
   }
-  .heading{
+
+  .heading {
     @apply text-2xl font-bold mb-4
   }
 }
